@@ -33,7 +33,9 @@ void initPost() {
 
    // Registering CommentsPageCubit with parameters (postId)
   serviceLocator.registerFactoryParam<CommentsPageCubit, int, PostRepository>(
-  (postId, repository) => CommentsPageCubit(postId, repository),
-);
+  (postId, repository) => CommentsPageCubit(postId, repository),);
+
+
+
  
 }

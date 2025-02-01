@@ -17,16 +17,13 @@ class CommentListWidget extends StatefulWidget {
   State<CommentListWidget> createState() => _CommentListWidgetState();
 }
 
+
 class _CommentListWidgetState extends State<CommentListWidget> {
   
  @override
   void initState() {
     super.initState();
     context.read<CommentsPageCubit>().getComments(widget.postId);
-  }
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override

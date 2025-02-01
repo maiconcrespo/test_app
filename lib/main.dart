@@ -8,7 +8,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
 
-  runApp(MultiBlocProvider(
+  runApp(
+    
+    MultiBlocProvider(
     providers: [
       BlocProvider(
         create: (_) => serviceLocator<PostPageCubit>()..getPosts(),
@@ -25,9 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-
-       
-       theme:ThemeData.light(),
+             theme:ThemeData.light(),
         routerConfig: AppRouter.router);
   }
 }

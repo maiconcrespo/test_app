@@ -9,23 +9,29 @@ import 'package:fpdart/fpdart.dart';
 class PostRepositoryImpl implements PostRepository {
   final PostApiDatasource datasource;
   PostRepositoryImpl(this.datasource);
-  @override
+@override
   Future<Either<Failure, List<PostModel>>> getPosts() async {
     try {
-      return right(await datasource.getPosts());
+      final posts = await datasource.getPosts();
+      if (posts.isEmpty) {
+        return left(Failure('No posts available'));
+      }
+      return right(posts);
     } on DioException catch (e) {
-      return left(Failure(e.message!));
+      return left(Failure(e.message ?? 'An error occurred'));
     }
   }
-
-
 
   @override
   Future<Either<Failure, List<CommentsModel>>> getComments(int postId) async {
     try {
-      return right(await datasource.getComments(postId));
+      final comments = await datasource.getComments(postId);
+      if (comments.isEmpty) {
+        return left(Failure('No comments available'));
+      }
+      return right(comments);
     } on DioException catch (e) {
-      return left(Failure(e.message!));
+      return left(Failure(e.message ?? 'An error occurred'));
     }
   }
 }

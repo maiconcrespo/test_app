@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class PostListWidget extends StatefulWidget {
-  final TextEditingController searchController;
-  const PostListWidget({super.key, required this.searchController});
+  final TextEditingController searchController = TextEditingController();
+  PostListWidget({super.key});
 
   @override
   State<PostListWidget> createState() => _PostListWidgetState();
@@ -22,28 +22,26 @@ class _PostListWidgetState extends State<PostListWidget> {
   @override
   void initState()  {
     super.initState();
-    widget.searchController.clear();
-     context.read<PostPageCubit>().getPosts();
     
-     //widget.searchController.addListener(() => _onSearchChanged(widget.searchController.text));
-     
+    context.read<PostPageCubit>().getPosts();
+    
   }
 
   @override
   void dispose() {
-    //widget.searchController.removeListener(() => _onSearchChanged(widget.searchController.text));
-    _debounce?.cancel();
+     _debounce?.cancel();
     super.dispose();
+   
   }
 
-  void _onSearchChanged(String query) {
+  void _onSearchChanged() {
     
     if (_debounce?.isActive ?? false) {
       _debounce?.cancel();
     }
 
-        _debounce = Timer(const Duration(milliseconds: 500), () {
-      context.read<PostPageCubit>().filterPosts(query);
+        _debounce = Timer(const Duration(milliseconds: 1000), () {
+      context.read<PostPageCubit>().filterPosts(widget.searchController.text);
     });
   }
 
@@ -53,7 +51,7 @@ class _PostListWidgetState extends State<PostListWidget> {
       children: [
         SearchField(
           controller: widget.searchController,
-          onChanged: _onSearchChanged,
+          onChanged: (query)=>_onSearchChanged(),
         ),
         Expanded(
           child: BlocBuilder<PostPageCubit, PostPageState>(

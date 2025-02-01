@@ -18,9 +18,9 @@ final class CommentsPageSuccess extends CommentsPageState {
   final List<CommentsModel> comments;
   final int postId;
   const CommentsPageSuccess(this.comments, this.postId);
-
-  @override
-  get props => [comments, postId];
+@override
+  List<Object> get props => [comments, postId];
+  
 }
 
 final class CommentsPageFailure extends CommentsPageState {
