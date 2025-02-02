@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 class PostListWidget extends StatefulWidget {
   final TextEditingController searchController = TextEditingController();
-  PostListWidget({super.key});
+  PostListWidget({super.key,searchController});
 
   @override
   State<PostListWidget> createState() => _PostListWidgetState();
@@ -42,7 +42,7 @@ class _PostListWidgetState extends State<PostListWidget> {
     }
 
         _debounce = Timer(const Duration(milliseconds: 1000), () {
-      
+      print('${_debounce.toString()}debounce ');
       serviceLocator<PostPageCubit>().filterPosts(widget.searchController.text);
     });
   }
