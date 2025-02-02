@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:exelin_test_app/core/widgets/loader.dart';
 import 'package:exelin_test_app/core/widgets/search_field.dart';
-import 'package:exelin_test_app/features/posts/presentation/cubit/posts/post_page_cubit.dart';
+import 'package:exelin_test_app/features/injection/service_locator.dart';
+import 'package:exelin_test_app/features/posts/presentation/blocs/posts/post_page_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,8 @@ class _PostListWidgetState extends State<PostListWidget> {
     }
 
         _debounce = Timer(const Duration(milliseconds: 1000), () {
-      context.read<PostPageCubit>().filterPosts(widget.searchController.text);
+      
+      serviceLocator<PostPageCubit>().filterPosts(widget.searchController.text);
     });
   }
 
@@ -71,7 +73,7 @@ class _PostListWidgetState extends State<PostListWidget> {
                       final post = posts[index];
                       return GestureDetector(
                         onTap: () {
-                          GoRouter.of(context).push('/detail/${post.id}');
+                          GoRouter.of(context).push('/comments/${post.id}');
                         },
                         child: Card(
                           margin: const EdgeInsets.all(10),

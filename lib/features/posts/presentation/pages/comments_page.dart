@@ -1,18 +1,17 @@
 import 'package:exelin_test_app/features/injection/service_locator.dart';
 import 'package:exelin_test_app/features/posts/domain/repositories/posts_repository.dart';
-import 'package:exelin_test_app/features/posts/presentation/cubit/comments/comments_cubit.dart';
+import 'package:exelin_test_app/features/posts/presentation/blocs/comments/comments_cubit.dart';
 import 'package:exelin_test_app/features/posts/presentation/widgets/comments_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DetailPage extends StatelessWidget {
+class CommentsPage extends StatelessWidget {
   final int postId;
-  static String route(int postId) => "/detail/$postId";
+  static String route(int postId) => "/comments/$postId";
 
-  const DetailPage({
+  const CommentsPage({
     super.key,
     required this.postId,
-    
   });
 
   @override
@@ -23,10 +22,8 @@ class DetailPage extends StatelessWidget {
         param2: serviceLocator<PostRepository>(),
       ),
       child: Scaffold(
-       
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('The Posts Down - Detail $postId',
+          title: Text('The Posts Down - Detail of post $postId',
               style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
         ),

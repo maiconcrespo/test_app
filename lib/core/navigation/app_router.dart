@@ -8,14 +8,14 @@ class AppRouter {
     initialLocation: PostPage.route(),
     routes: [
       GoRoute(
-        path: PostPage.route(),
+        path:'/posts',
         builder: (context, _) => PostPage(),
       ),
       GoRoute(
-        path: '/detail/:postId',
+        path: '/comments/:postId',
         builder: (context, state) {
           final postId = int.parse(state.pathParameters['postId']!);
-          return DetailPage(postId: postId);
+          return CommentsPage(postId: postId);
         },
       ),
     ],

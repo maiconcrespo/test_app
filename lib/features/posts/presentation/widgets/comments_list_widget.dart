@@ -1,5 +1,5 @@
-import 'package:exelin_test_app/features/posts/presentation/cubit/comments/comments_cubit.dart';
-import 'package:exelin_test_app/features/posts/presentation/cubit/comments/comments_state.dart';
+import 'package:exelin_test_app/features/posts/presentation/blocs/comments/comments_cubit.dart';
+import 'package:exelin_test_app/features/posts/presentation/blocs/comments/comments_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

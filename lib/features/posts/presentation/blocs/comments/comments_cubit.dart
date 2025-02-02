@@ -1,6 +1,6 @@
 
 import 'package:exelin_test_app/features/posts/domain/repositories/posts_repository.dart';
-import 'package:exelin_test_app/features/posts/presentation/cubit/comments/comments_state.dart';
+import 'package:exelin_test_app/features/posts/presentation/blocs/comments/comments_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentsPageCubit extends Cubit<CommentsPageState> {
