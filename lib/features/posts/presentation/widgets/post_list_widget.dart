@@ -1,17 +1,17 @@
 import 'dart:async';
-
 import 'package:exelin_test_app/core/widgets/loader.dart';
 import 'package:exelin_test_app/core/widgets/search_field.dart';
-import 'package:exelin_test_app/features/injection/service_locator.dart';
-import 'package:exelin_test_app/features/posts/presentation/blocs/posts/post_page_cubit.dart';
-
+import 'package:exelin_test_app/features/posts/presentation/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class PostListWidget extends StatefulWidget {
   final TextEditingController searchController = TextEditingController();
-  PostListWidget({super.key,searchController});
+  PostListWidget({
+    super.key,
+    searchController,
+  });
 
   @override
   State<PostListWidget> createState() => _PostListWidgetState();
@@ -20,40 +20,47 @@ class PostListWidget extends StatefulWidget {
 class _PostListWidgetState extends State<PostListWidget> {
   Timer? _debounce;
 
+
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-    
-    context.read<PostPageCubit>().getPosts();
-    
+    serviceLocator<PostPageCubit>().getPosts();
   }
+
 
   @override
   void dispose() {
-     _debounce?.cancel();
+    _debounce?.cancel(); // Cancela el timer al destruir el widget
     super.dispose();
-   
   }
 
-  void _onSearchChanged() {
-    
-    if (_debounce?.isActive ?? false) {
-      _debounce?.cancel();
-    }
+  void onSearchChanged(String query) {
 
-        _debounce = Timer(const Duration(milliseconds: 1000), () {
-      print('${_debounce.toString()}debounce ');
-      serviceLocator<PostPageCubit>().filterPosts(widget.searchController.text);
+     if (_debounce?.isActive ?? false) {
+      _debounce?.cancel();
+    }// Cancela cualquier temporizador anterior
+
+    print("Debounce reiniciado para: $query");
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (mounted) {
+        print("Ejecutando filtro con query: $query");
+        await  serviceLocator<PostPageCubit>().filterPosts(query);
+      }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchField(
-          controller: widget.searchController,
-          onChanged: (query)=>_onSearchChanged(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SearchField(
+            onChanged: (query)=>onSearchChanged(query),
+            controller: widget.searchController,
+          ),
         ),
         Expanded(
           child: BlocBuilder<PostPageCubit, PostPageState>(
@@ -71,7 +78,7 @@ class _PostListWidgetState extends State<PostListWidget> {
                     itemCount: posts.length,
                     itemBuilder: (context, index) {
                       final post = posts[index];
-                      return GestureDetector(
+                      return InkWell(
                         onTap: () {
                           GoRouter.of(context).push('/comments/${post.id}');
                         },

@@ -23,7 +23,7 @@ class CommentsPage extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('The Posts Down - Detail of post $postId',
+          title: Text('The Posts Down - $postId',
               style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
         ),

@@ -6,38 +6,39 @@ import 'package:exelin_test_app/features/posts/domain/usecases/get_posts.dart';
 import 'package:get_it/get_it.dart';
 import '../posts/presentation/blocs/blocs.dart';
 
-
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
-    initPost();
+  initPost();
 }
 
 void initPost() {
-
   // Register Dio
- serviceLocator.registerLazySingleton<Dio>(() => Dio());
+  serviceLocator.registerLazySingleton<Dio>(() => Dio());
 
   //Accessing the Dio instance
-  serviceLocator.registerFactory<PostApiDatasource>(() => PostApiDatasource(dio:  serviceLocator<Dio>()),);
+  serviceLocator.registerFactory<PostApiDatasource>(
+    () => PostApiDatasource(dio: serviceLocator<Dio>()),
+  );
 
   //Accessing the PostRepository instance
-  serviceLocator.registerFactory<PostRepository>(() => PostRepositoryImpl(serviceLocator<PostApiDatasource>()));
+  serviceLocator.registerFactory<PostRepository>(
+      () => PostRepositoryImpl(serviceLocator<PostApiDatasource>()));
 
   //Accessing the GetPosts instance
-  serviceLocator.registerFactory<GetPosts>(() => GetPosts(serviceLocator<PostRepository>())); 
+  serviceLocator.registerFactory<GetPosts>(
+      () => GetPosts(serviceLocator<PostRepository>()));
 
   //Post Page Cubit
-  serviceLocator.registerFactory<PostPageCubit>(() => PostPageCubit(serviceLocator<PostRepository>()));
+  serviceLocator.registerLazySingleton<PostPageCubit>(
+      () => PostPageCubit(serviceLocator<PostRepository>()));
 
-   // Registering CommentsPageCubit with parameters (postId)
+  // Registering CommentsPageCubit with parameters (postId)
   serviceLocator.registerFactoryParam<CommentsPageCubit, int, PostRepository>(
-  (postId, repository) => CommentsPageCubit(postId, repository),);
+    (postId, repository) => CommentsPageCubit(postId, repository),
+  );
 
-//ThemeCubit 
-serviceLocator.registerSingleton(ThemeCubit());
+//ThemeCubit
+  serviceLocator.registerSingleton(ThemeCubit());
 
-
-
- 
 }
