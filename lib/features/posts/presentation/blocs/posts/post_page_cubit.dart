@@ -27,11 +27,11 @@ class PostPageCubit extends Cubit<PostPageState> {
   }
 
   Future<List<PostModel>> filterPosts(String query) async {
-  print("Filtrando con: $query"); // Verifica si el query es el esperado
+  print("Filter: $query"); // Verify query
 
   if (_allPosts.isEmpty) {
     print("⚠️ _allPosts está vacío, intentando cargar...");
-    await getPosts(); // Esperamos la carga de los posts
+    await getPosts(); // Waiting Load Posts
   }
 
   final filteredPosts = _allPosts
@@ -42,11 +42,11 @@ class PostPageCubit extends Cubit<PostPageState> {
 
   print("🔎 Filtrando por: $query, encontrados: ${filteredPosts.length}");
 
-  emit(PostPageLoading()); // Solo mostramos el loader si es necesario
+  emit(PostPageLoading()); // Loading if necessary
 
-  await Future.delayed(const Duration(milliseconds: 500));  // Este delay puede ser innecesario
+  await Future.delayed(const Duration(milliseconds: 300));  // delay
 
-  emit(PostPageSuccess(filteredPosts));  // Emitir éxito con los posts filtrados
+  emit(PostPageSuccess(filteredPosts));  //Emit success with filtered posts
   
   return filteredPosts;
 

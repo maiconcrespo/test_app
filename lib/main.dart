@@ -10,7 +10,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
      BlocProvider(create: (_) => serviceLocator<PostPageCubit>()..getPosts()),
-    
+     BlocProvider(create: (_) => serviceLocator<SplashCubit>()..checkAppStatus()),
              ],
     child: const MyApp(),
   ));
