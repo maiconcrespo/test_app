@@ -9,7 +9,7 @@ part 'post_page_state.dart';
 class PostPageCubit extends Cubit<PostPageState> {
   final PostRepository repository;
   List<PostModel> _allPosts = [];
-  List<PostModel> get allPosts => _allPosts;
+  //List<PostModel> get allPosts => _allPosts;
 
   PostPageCubit(this.repository) : super(PostPageInitial());
 
@@ -27,28 +27,25 @@ class PostPageCubit extends Cubit<PostPageState> {
   }
 
   Future<List<PostModel>> filterPosts(String query) async {
-  print("Filter: $query"); // Verify query
+    if (_allPosts.isEmpty) {
+      await getPosts(); // Waiting Load Posts
+     
+    }
 
-  if (_allPosts.isEmpty) {
-    print("⚠️ _allPosts está vacío, intentando cargar...");
-    await getPosts(); // Waiting Load Posts
+    final filteredPosts = _allPosts
+        .where((post) =>
+            post.title.toLowerCase().contains(query.toLowerCase()) ||
+            post.body.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    print("🔎 Filter by: $query, founds: ${filteredPosts.length}");
+
+    emit(PostPageLoading()); // Loading if necessary
+
+    await Future.delayed(const Duration(milliseconds: 300)); // delay
+
+    emit(PostPageSuccess(filteredPosts)); //Emit success with filtered posts
+
+    return filteredPosts;
   }
-
-  final filteredPosts = _allPosts
-      .where((post) =>
-          post.title.toLowerCase().contains(query.toLowerCase()) ||
-          post.body.toLowerCase().contains(query.toLowerCase()))
-      .toList();
-
-  print("🔎 Filtrando por: $query, encontrados: ${filteredPosts.length}");
-
-  emit(PostPageLoading()); // Loading if necessary
-
-  await Future.delayed(const Duration(milliseconds: 300));  // delay
-
-  emit(PostPageSuccess(filteredPosts));  //Emit success with filtered posts
-  
-  return filteredPosts;
-
-  
-}}
+}

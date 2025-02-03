@@ -26,6 +26,11 @@ class _CommentListWidgetState extends State<CommentListWidget> {
     context.read<CommentsPageCubit>().getComments(widget.postId);
   }
 
+   @override
+  void dispose() {
+     super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

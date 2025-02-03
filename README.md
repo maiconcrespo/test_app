@@ -1,6 +1,23 @@
 # exelin_test_app
 
-A new Flutter project.
+A Flutter project.
+
+This is a rest app , folowing the base instructions.
+I used in this app for learn and practice Clean Arch
+
+FVM using Flutter 3.24.5 and Dart 3.5.4
+
+  dio: ^5.7.0
+  go_router: ^14.7.1
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
+  equatable: ^2.0.7
+  fpdart: ^1.1.1
+  get_it: ^8.0.3
+
+## Information about versions
+
+The version utilized in this proyect is 3.24.5, because the version 3.27.0, was found a bug that pause the app in webbrowser, on click in the Search field.
 
 ## Getting Started
 

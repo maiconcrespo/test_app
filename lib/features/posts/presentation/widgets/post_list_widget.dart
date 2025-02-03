@@ -20,36 +20,30 @@ class PostListWidget extends StatefulWidget {
 class _PostListWidgetState extends State<PostListWidget> {
   Timer? _debounce;
 
-
   @override
   void initState() {
     super.initState();
     serviceLocator<PostPageCubit>().getPosts();
   }
 
-
   @override
   void dispose() {
     _debounce?.cancel(); // Cancela el timer al destruir el widget
+    print("getinPosts");
     super.dispose();
   }
 
   void onSearchChanged(String query) {
-
-     if (_debounce?.isActive ?? false) {
+    if (_debounce?.isActive ?? false) {
       _debounce?.cancel();
-    }// Cancela cualquier temporizador anterior
+    } // Cancela cualquier temporizador anterior
 
-    print("Debounce reiniciado para: $query");
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (mounted) {
-        print("Ejecutando filtro con query: $query");
-        await  serviceLocator<PostPageCubit>().filterPosts(query);
+        await serviceLocator<PostPageCubit>().filterPosts(query);
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +52,7 @@ class _PostListWidgetState extends State<PostListWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SearchField(
-            onChanged: (query)=>onSearchChanged(query),
+            onChanged: (query) => onSearchChanged(query),
             controller: widget.searchController,
           ),
         ),
@@ -80,7 +74,9 @@ class _PostListWidgetState extends State<PostListWidget> {
                       final post = posts[index];
                       return InkWell(
                         onTap: () {
-                          GoRouter.of(context).push('/comments/${post.id}');
+                          GoRouter.of(context)
+                              .push('/comments/${post.id}')
+                              .then((_) => serviceLocator<PostPageCubit>().getPosts());
                         },
                         child: Card(
                           margin: const EdgeInsets.all(10),

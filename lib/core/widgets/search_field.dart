@@ -20,7 +20,8 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      onChanged: onChanged ??  _defaultOnChanged,
+      onChanged: onChanged ?? 
+       _defaultOnChanged,
       textInputAction: TextInputAction.search, 
       decoration: InputDecoration(
         hintText: hintText,
