@@ -8,7 +8,7 @@ class SplashPage extends StatelessWidget {
   static String route() => "/splash";
 
   const SplashPage({super.key});
-
+//Simple Loading Page
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, bool>(

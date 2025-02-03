@@ -39,7 +39,7 @@ void initPost() {
   );
 
 //ThemeCubit
-  serviceLocator.registerSingleton(ThemeCubit());
+  serviceLocator.registerSingleton<ThemeCubit>(ThemeCubit(darkMode: false));
 
 //Splash Cubit
   serviceLocator.registerLazySingleton<SplashCubit>(() => SplashCubit());

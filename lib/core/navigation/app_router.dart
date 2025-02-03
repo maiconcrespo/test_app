@@ -17,7 +17,7 @@ class AppRouter {
         builder: (context, _) => PostPage(),
       ),
       GoRoute(
-        path: '/detail/:postId',
+        path: '/comments/:postId',
         builder: (context, state) {
           final postId = int.parse(state.pathParameters['postId']!);
           return CommentsPage(postId: postId);

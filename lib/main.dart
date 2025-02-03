@@ -9,9 +9,11 @@ void main() async {
 
   runApp(MultiBlocProvider(
     providers: [
-     BlocProvider(create: (_) => serviceLocator<PostPageCubit>()..getPosts()),
-     BlocProvider(create: (_) => serviceLocator<SplashCubit>()..checkAppStatus()),
-             ],
+      BlocProvider(create: (_) => serviceLocator<PostPageCubit>()..getPosts()),
+      BlocProvider(
+          create: (_) => serviceLocator<SplashCubit>()..checkAppStatus()),
+      BlocProvider(create: (_) => serviceLocator<ThemeCubit>()),
+    ],
     child: const MyApp(),
   ));
 }
@@ -20,10 +22,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-   
-    return MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.light(),
-        routerConfig: AppRouter.router);
+    
+
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            theme: state.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+            routerConfig: AppRouter.router);
+      },
+    );
   }
 }
